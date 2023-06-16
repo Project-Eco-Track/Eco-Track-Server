@@ -22,5 +22,5 @@ app.use((err, req, res, next) => {
 // Start the server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`The server will be running at http://localhost:${port}`);
 });
