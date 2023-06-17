@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./src/routes/routes');
+const routes = require('./src/api/routes/routes');
 
 // Setting up the Express server
 const app = express();
