@@ -7,7 +7,8 @@
     "jsonwebtoken": "^9.0.0",
     "jsonwebtoken-promisified": "^1.0.3",
     "mongodb": "^5.6.0",
-    "mysql2": "^3.3.5"
+    "mysql": "^2.18.1",
+    "mysql2": "^3.4.0"
   },
   "scripts": {
     "dev": "node server.js"
