@@ -1,12 +1,14 @@
-require('dotenv').config()
+require("dotenv").config();
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const routes = require('./src/api/routes/routes');
-const tidbConnection = require('./src/db/tiDB');
+const express = require("express");
+const bodyParser = require("body-parser");
+const routes = require("./src/api/routes/routes");
+const tidbConnection = require("./src/db/tiDB");
+const markdownIt = require("markdown-it");
 
 // Setting up the Express server
 const app = express();
+const md = markdownIt();
 
 // Parse incoming requests with JSON payloads
 app.use(bodyParser.json());
@@ -18,10 +20,10 @@ app.use((req, res, next) => {
 });
 
 // Set up root routes
-app.use('/', routes);
+app.use("/", routes);
 
 // Receiving login details from the frontend
-app.post('/api/user/login', async (req, res) => {
+app.post("/api/user/login", async (req, res) => {
   try {
     // extracting user informations from the request payload
     const { userId, name, email } = req.body;
@@ -30,17 +32,27 @@ app.post('/api/user/login', async (req, res) => {
     await tidb.storeUserDetails(userId, name, email);
 
     // Response
-    res.status(200).json({ message: 'User details stored successfully' });
+    res.status(200).json({ message: "User details stored successfully" });
   } catch (error) {
-    console.error('Error storing user details:', error);
-    res.status(500).json({ error: 'Failed to store user details' });
+    console.error("Error storing user details:", error);
+    res.status(500).json({ error: "Failed to store user details" });
   }
+});
+
+// get a blog post by id
+app.get("/api/blog/:id", async (req, res) => {
+  
+  // get blog post from TiDB
+
+  const { markdown } = req.body;
+  const html = md.render(markdown);
+  res.send(html);
 });
 
 // Error management middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Server Error' });
+  res.status(500).json({ error: "Server Error" });
 });
 
 // Start the server
