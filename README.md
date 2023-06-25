@@ -27,11 +27,13 @@ git clone https://github.com/Project-Eco-Track/Eco-Track-Server/.git
 ```
 
 2. Navigate to the project directory:
+
 ```bash
 cd Eco-Track-Server
 ```
 
 3. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -41,6 +43,7 @@ npm install
 1. Create a .env file in the root of the backend directory.
 
 2. Add the following environment variables to the .env file:
+
 ```
 # for tiDB.js
 TIDB_HOST=your-tidb-host
@@ -53,10 +56,20 @@ TIDB_DATABASE='test'
 URI='mongodb+srv://<username>:<password>@<mongodb_host>/<database_name>?retryWrites=true&w=majority';
 
 # for server.js
-PORT=3000
+PORT=3001
 ```
 
 Replace the values with your MongoDB and TiDB Cloud connection details.
+
+## Add Data App Keys
+[Read Docs](https://docs.pingcap.com/tidbcloud/data-service-get-started)
+```
+TIDB_PUBLIC_KEY_R = Public Key with read access
+TIDB_PRIVATE_KEY_R = Private Key with read acess
+
+TIDB_PUBLIC_KEY_RW = Public Key with Read/Write access
+TIDB_PRIVATE_KEY_RW = Private Key with Read/Write acess
+```
 
 ### Usage
 
@@ -68,7 +81,7 @@ Start the backend server with the following command:
 npm run dev
 ```
 
-The server will be running at http://localhost:3000
+The server will be running at http://localhost:3001
 
 ### Contributing
 
