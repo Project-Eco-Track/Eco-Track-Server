@@ -23,9 +23,25 @@ function getAllBlogs(req, res) {
     });
 }
 
-function getBlogContent(req, res) {}
+function getBlogContent(req, res) {
+  client
+    .fetch(`${process.env.BLOG_GET_BLOG_POST}?id=${req.params.id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Request failed with status: " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      res.json(data.data.rows[0]); // Send the response as JSON to the client
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).json({ error: "Internal Server Error" }); // Send an error response to the client
+    });
+}
 
 module.exports = {
   getAllBlogs,
-  getBlogContent
+  getBlogContent,
 };
