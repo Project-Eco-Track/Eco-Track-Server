@@ -56,7 +56,7 @@ TIDB_DATABASE='test'
 URI='mongodb+srv://<username>:<password>@<mongodb_host>/<database_name>?retryWrites=true&w=majority';
 
 # for server.js
-PORT=3000
+PORT=3001
 ```
 
 Replace the values with your MongoDB and TiDB Cloud connection details.
@@ -81,7 +81,7 @@ Start the backend server with the following command:
 npm run dev
 ```
 
-The server will be running at http://localhost:3000
+The server will be running at http://localhost:3001
 
 ### Contributing
 
