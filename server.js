@@ -6,6 +6,8 @@ const routes = require("./src/api/routes/routes");
 const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
 
+const blogController = require("./controller/blogController");
+
 // Setting up the Express server
 const app = express();
 const md = markdownIt();
@@ -41,13 +43,14 @@ app.post("/api/user/login", async (req, res) => {
 
 // get a blog post by id
 app.get("/api/blog/:id", async (req, res) => {
-  
   // get blog post from TiDB
 
   const { markdown } = req.body;
   const html = md.render(markdown);
   res.send(html);
 });
+
+app.get("/blogs", blogController.getAllBlogs);
 
 // Error management middleware
 app.use((err, req, res, next) => {
