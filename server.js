@@ -50,7 +50,9 @@ app.get("/api/blog/:id", async (req, res) => {
   res.send(html);
 });
 
+// Blog routes
 app.get("/blogs", blogController.getAllBlogs);
+app.get("/blog/:id", blogController.getBlogContent);
 
 // Error management middleware
 app.use((err, req, res, next) => {
