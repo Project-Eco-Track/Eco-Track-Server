@@ -43,7 +43,17 @@ app.get("/blog/:id", blogController.getBlogContent);
 // Error management middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Server Error" });
+
+  // Customize error messages based on error types
+  let errorMessage = "Server Error";
+  let statusCode = 500;
+
+  if (err instanceof CustomError) {
+    errorMessage = err.message;
+    statusCode = err.statusCode;
+  }
+
+  res.status(statusCode).json({ error: errorMessage });
 });
 
 // Start the server
