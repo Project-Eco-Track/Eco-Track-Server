@@ -39,6 +39,15 @@ app.get("/api/blog/:id", async (req, res) => {
 // Blog routes
 app.get("/blogs", blogController.getAllBlogs);
 app.get("/blog/:id", blogController.getBlogContent);
+app.post("/api/blog", blogController.createBlogPost);
+
+// CustomError class for custom errors with specific status codes
+class CustomError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 
 // Error management middleware
 app.use((err, req, res, next) => {

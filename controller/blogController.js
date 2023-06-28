@@ -41,7 +41,30 @@ function getBlogContent(req, res) {
     });
 }
 
+// Creating a blog post with user ID
+async function createBlogPost(req, res) {
+  try {
+    // Get the user ID from the request object
+    const userId = req.userId;
+
+    // Getting other necessary details from the request body
+    const { title, content } = req.body;
+
+    // Insert the blog post into the TiDB database
+    const insertQuery = `INSERT INTO blog_posts (title, content, user_id) VALUES (?, ?, ?)`;
+    const insertValues = [title, content, userId];
+    await req.db.query(insertQuery, insertValues);
+
+    res.status(200).json({ message: 'Blog post created successfully' });
+  } catch (error) {
+    console.error('Error creating blog post:', error);
+    res.status(500).json({ error: 'Failed to create blog post' });
+  }
+}
+
+
 module.exports = {
   getAllBlogs,
   getBlogContent,
+  createBlogPost,
 };
