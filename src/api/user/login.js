@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const tidbConnection = require('../db/tiDB');
+const tidbConnection = require('../../db/tiDB');
 
 router.post('/', async (req, res) => {
   try {
