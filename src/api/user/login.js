@@ -1,5 +1,3 @@
-// src/api/user/login.js
-
 const express = require('express');
 const router = express.Router();
 const tidbConnection = require('../../db/tiDB');
