@@ -1,7 +1,6 @@
-
-onst express = require('express');
+const express = require('express');
 const router = express.Router();
-const tidbConnection = require('../db/tiDB');
+const tidbConnection = require('../../db/tiDB');
 
 router.post('/', async (req, res) => {
   try {
@@ -11,8 +10,8 @@ router.post('/', async (req, res) => {
     // Store user info in TiDB
     await tidbConnection.storeUserDetails(userid, name, email);
 
-    // Respond with success status
-    res.status(200).json({ message: 'User details stored successfully' });
+    // Respond with success status and user ID
+    res.status(200).json({ message: 'User details stored successfully', userId: userid });
   } catch (error) {
     console.error('Error storing user details:', error);
     res.status(500).json({ error: 'Failed to store user details' });

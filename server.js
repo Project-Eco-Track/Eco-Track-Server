@@ -36,12 +36,33 @@ app.get("/api/blog/:id", async (req, res) => {
   res.send(html);
 });
 
+// Blog routes
 app.get("/blogs", blogController.getAllBlogs);
+app.get("/blog/:id", blogController.getBlogContent);
+app.post("/api/blog", blogController.createBlogPost);
+
+// CustomError class for custom errors with specific status codes
+class CustomError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 
 // Error management middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Server Error" });
+
+  // Customize error messages based on error types
+  let errorMessage = "Server Error";
+  let statusCode = 500;
+
+  if (err instanceof CustomError) {
+    errorMessage = err.message;
+    statusCode = err.statusCode;
+  }
+
+  res.status(statusCode).json({ error: errorMessage });
 });
 
 // Start the server

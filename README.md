@@ -6,7 +6,6 @@ This is the backend component of EcoTrack, a revolutionary web application that 
 
 - Node.js
 - Express.js
-- MongoDB
 - TiDB Cloud
 - Other dependencies (listed in package.json)
 
@@ -15,7 +14,6 @@ This is the backend component of EcoTrack, a revolutionary web application that 
 ### Prerequisites
 
 - Node.js (v19.7.0)
-- MongoDB
 - TiDB Cloud account (for database connection)
 
 ### Installation
@@ -51,9 +49,6 @@ TIDB_PORT=your-tidb-port
 TIDB_USER=your-tidb-username
 TIDB_PASSWORD=your-tidb-password
 TIDB_DATABASE='test'
-
-# for mongoDB.js
-URI='mongodb+srv://<username>:<password>@<mongodb_host>/<database_name>?retryWrites=true&w=majority';
 
 # for server.js
 PORT=3001
