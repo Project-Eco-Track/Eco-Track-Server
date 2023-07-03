@@ -1,23 +1,21 @@
-// src/api/user/login.js
-
 const express = require('express');
 const router = express.Router();
-const tidbConnection = require('../db/tiDB');
+const tidbConnection = require('../../db/tiDB');
 
 router.post('/', async (req, res) => {
-    try {
-      // extracting user informations from the request payload
-      const { userId, name, email } = req.body;
-  
-      // Storing details in TiDB
-      await tidbConnection.storeUserDetails(userId, name, email);
-  
-      // Response
-      res.status(200).json({ message: 'User details stored successfully' });
-    } catch (error) {
-      console.error('Error storing user details:', error);
-      res.status(500).json({ error: 'Failed to store user details' });
-    }
-  });
+  try {
+    // Get relevant information from the request payload 
+    const { userid, name, email } = req.body;
+
+    // Store user info in TiDB
+    await tidbConnection.storeUserDetails(userid, name, email);
+
+    // Respond with success status and user ID
+    res.status(200).json({ message: 'User details stored successfully', userId: userid });
+  } catch (error) {
+    console.error('Error storing user details:', error);
+    res.status(500).json({ error: 'Failed to store user details' });
+  }
+});
 
 module.exports = router;

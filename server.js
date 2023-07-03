@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const routes = require("./src/api/routes/routes");
 const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
-
+const loginRouter = require('./src/api/user/login');
 const blogController = require("./controller/blogController");
 
 // Setting up the Express server
@@ -25,21 +25,7 @@ app.use((req, res, next) => {
 app.use("/", routes);
 
 // Receiving login details from the frontend
-app.post("/api/user/login", async (req, res) => {
-  try {
-    // extracting user informations from the request payload
-    const { userId, name, email } = req.body;
-
-    // Storing details in TiDB
-    await tidb.storeUserDetails(userId, name, email);
-
-    // Response
-    res.status(200).json({ message: "User details stored successfully" });
-  } catch (error) {
-    console.error("Error storing user details:", error);
-    res.status(500).json({ error: "Failed to store user details" });
-  }
-});
+app.use('/api/user/login', loginRouter);
 
 // get a blog post by id
 app.get("/api/blog/:id", async (req, res) => {
@@ -53,11 +39,30 @@ app.get("/api/blog/:id", async (req, res) => {
 // Blog routes
 app.get("/blogs", blogController.getAllBlogs);
 app.get("/blog/:id", blogController.getBlogContent);
+app.post("/api/blog", blogController.createBlogPost);
+
+// CustomError class for custom errors with specific status codes
+class CustomError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
 
 // Error management middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Server Error" });
+
+  // Customize error messages based on error types
+  let errorMessage = "Server Error";
+  let statusCode = 500;
+
+  if (err instanceof CustomError) {
+    errorMessage = err.message;
+    statusCode = err.statusCode;
+  }
+
+  res.status(statusCode).json({ error: errorMessage });
 });
 
 // Start the server
