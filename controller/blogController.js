@@ -10,16 +10,16 @@ function getAllBlogs(req, res) {
     .fetch(process.env.BLOG_GET_ALL)
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Request failed with status: " + response.status);
+        res.json("Request failed with status: " + response.status);
       }
       return response.json();
     })
     .then((data) => {
-      res.json(data.data.rows); // Send the response as JSON to the client
+      res.json(data.data.rows);
     })
     .catch((error) => {
       console.error("Error:", error);
-      res.status(500).json({ error: "Internal Server Error" }); // Send an error response to the client
+      res.status(500).json({ error: "Internal Server Error" });
     });
 }
 
@@ -28,26 +28,41 @@ function getBlogContent(req, res) {
     .fetch(`${process.env.BLOG_GET_BLOG_POST}?id=${req.params.id}`)
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Request failed with status: " + response.status);
+        res.json("Request failed with status: " + response.status);
       }
       return response.json();
     })
     .then((data) => {
-      res.json(data.data.rows[0]); // Send the response as JSON to the client
+      res.json(data.data.rows[0]);
     })
     .catch((error) => {
       console.error("Error:", error);
-      res.status(500).json({ error: "Internal Server Error" }); // Send an error response to the client
+      res.status(500).json({ error: "Internal Server Error" });
+    });
+}
+
+async function getFeaturedBlogID(req, res) { //! not sure if this is needed
+  client
+    .fetch(process.env.BLOG_GET_FEATURED)
+    .then((response) => {
+      if (!response.ok) {
+        res.json("Request failed with status: " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      res.json(data.data.rows[0].id);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     });
 }
 
 // Creating a blog post with user ID
 async function createBlogPost(req, res) {
   try {
-    // Get the user ID from the request object
     const userId = req.userId;
-
-    // Getting other necessary details from the request body
     const { title, content } = req.body;
 
     // Insert the blog post into the TiDB database
@@ -55,16 +70,14 @@ async function createBlogPost(req, res) {
     const insertValues = [title, content, userId];
     await req.db.query(insertQuery, insertValues);
 
-    res.status(200).json({ message: 'Blog post created successfully' });
+    res.status(200).json({ message: "Blog post created successfully" });
   } catch (error) {
-    console.error('Error creating blog post:', error);
-    res.status(500).json({ error: 'Failed to create blog post' });
+    console.error("Error creating blog post:", error);
+    res.status(500).json({ error: "Failed to create blog post" });
   }
 }
-
 
 module.exports = {
   getAllBlogs,
   getBlogContent,
-  createBlogPost,
 };
