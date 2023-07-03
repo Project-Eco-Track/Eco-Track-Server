@@ -1,5 +1,7 @@
 # EcoTrack Backend
 
+![NodeJS](https://github.com/Project-Eco-Track/Eco-Track-Server/actions/workflows/node.js.yml/badge.svg)
+
 This is the backend component of EcoTrack, a revolutionary web application that helps individuals reduce their carbon footprint and embrace sustainable practices. The backend is responsible for handling API requests, interacting with the database, and implementing the core logic of the application.
 
 ## Technologies Used
