@@ -80,4 +80,6 @@ async function createBlogPost(req, res) {
 module.exports = {
   getAllBlogs,
   getBlogContent,
+  getFeaturedBlogID,
+  createBlogPost,
 };

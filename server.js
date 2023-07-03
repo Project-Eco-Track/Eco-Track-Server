@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const routes = require("./src/api/routes/routes");
 const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
 const loginRouter = require('./src/api/user/login');
@@ -20,9 +19,6 @@ app.use((req, res, next) => {
   req.db = tidbConnection;
   next();
 });
-
-// Set up root routes
-app.use("/", routes);
 
 // Receiving login details from the frontend
 app.use('/api/user/login', loginRouter);
