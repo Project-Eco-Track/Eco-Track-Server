@@ -10,6 +10,7 @@ function getAllBlogs(req, res) {
     .fetch(process.env.BLOG_GET_ALL)
     .then((response) => {
       if (!response.ok) {
+        console.log("Request failed with status: " + response.status);
         res.json("Request failed with status: " + response.status);
       }
       return response.json();
@@ -28,6 +29,7 @@ function getBlogContent(req, res) {
     .fetch(`${process.env.BLOG_GET_BLOG_POST}?id=${req.params.id}`)
     .then((response) => {
       if (!response.ok) {
+        console.log("Request failed with status: " + response.status);
         res.json("Request failed with status: " + response.status);
       }
       return response.json();
@@ -41,11 +43,13 @@ function getBlogContent(req, res) {
     });
 }
 
-async function getFeaturedBlogID(req, res) { //! not sure if this is needed
+async function getFeaturedBlogID(req, res) {
+  //! not sure if this is needed
   client
     .fetch(process.env.BLOG_GET_FEATURED)
     .then((response) => {
       if (!response.ok) {
+        console.log("Request failed with status: " + response.status);
         res.json("Request failed with status: " + response.status);
       }
       return response.json();
