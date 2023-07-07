@@ -6,6 +6,7 @@ const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
 const loginRouter = require('./src/api/user/login');
 const blogController = require("./controller/blogController");
+const cors = require("cors");
 
 // Setting up the Express server
 const app = express();
@@ -13,6 +14,7 @@ const md = markdownIt();
 
 // Parse incoming requests with JSON payloads
 app.use(bodyParser.json());
+app.use(cors());
 
 // Attaching the TiDB connection to the request object
 app.use((req, res, next) => {
