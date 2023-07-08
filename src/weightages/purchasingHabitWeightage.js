@@ -70,5 +70,4 @@ const purchasingHabitWeightage = {
     },
 }
 
-module.exports = purchasingHabitWeightageadd .
-;
+module.exports = purchasingHabitWeightage;
