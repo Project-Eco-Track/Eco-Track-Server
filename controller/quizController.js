@@ -54,14 +54,20 @@ const calculateTotalCarbonFootprint = (categoricalCarbonFootprints) => {
 };
 
 const handleQuiz = (req, res) => {
-  const quizResponses = req.body;
-  const categoricalCarbonFootprints = calculateCarbonFootprint(quizResponses);
-  const totalCarbonFootprint = calculateTotalCarbonFootprint(categoricalCarbonFootprints);
-  
-  // Return carbon footprint as response
-  res.json({ totalCarbonFootprint });
+  try {
+    const quizResponses = req.body;
+    const categoricalCarbonFootprints = calculateCarbonFootprint(quizResponses);
+    const totalCarbonFootprint = calculateTotalCarbonFootprint(categoricalCarbonFootprints);
+
+    // Return carbon footprint as response
+    res.json({ totalCarbonFootprint });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
-module.exports = { 
+module.exports = {
   handleQuiz,
+  calculateCarbonFootprint, // Add the calculateCarbonFootprint function to exports
 };

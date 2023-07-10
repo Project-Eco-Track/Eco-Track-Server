@@ -7,7 +7,7 @@ const markdownIt = require("markdown-it");
 const loginRouter = require('./src/api/user/login');
 const blogController = require("./controller/blogController");
 const cors = require("cors");
-const { handleQuiz } = require('./controller/quizController');
+const { handleQuiz, calculateCarbonFootprint } = require('./controller/quizController');
 
 // Setting up the Express server
 const app = express();
@@ -41,12 +41,7 @@ app.get("/blog/:id", blogController.getBlogContent);
 app.post("/api/blog", blogController.createBlogPost);
 
 // Carbon footprint calculator
-app.post('/carbon-footprint', (req, res) => {
-  const quizResponses = req.body;
-  // Parsing the quizResponses to the handleQuiz function
-  const carbonFootprint = handleQuiz(quizResponses);
-  res.json({ carbonFootprint });
-});
+app.post('/carbon-footprint', handleQuiz);
 
 // CustomError class for custom errors with specific status codes
 class CustomError extends Error {
