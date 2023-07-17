@@ -11,6 +11,20 @@
       "carpoolingProgram": "A",
       "walkBikeFrequency": "B"
     },
+
+    "dietWeightage": {
+      "meatDairyConsumption": "A",
+      "vegetarianVeganDiet": "B",
+      "locallySourcedProduce": "C",
+      "foodWasteReduction": "B",
+      "reduceProcessedPackagedFoods": "A",
+      "organicSustainableFood": "B",
+      "csaParticipation": "C",
+      "plantBasedProteins": "A",
+      "fromScratchMeals": "A",
+      "awarenessCarbonFootprint": "B"
+    },
+
     "energyUsageWeightage": {
       "heatingSystem": "A",
       "thermostatAdjustment": "B",
@@ -23,6 +37,7 @@
       "programmableThermostats": "A",
       "naturalVentilation": "B"
     },
+    
     "purchasingHabitWeightage": {
       "reusableBags": "A",
       "localProducts": "B",
@@ -35,6 +50,7 @@
       "responsibleDisposal": "A",
       "brandImpactConsideration": "B"
     },
+
     "wasteManagementWeightage": {
       "organicWasteDisposal": "A",
       "paperPlasticGlassMetalRecycling": "B",
@@ -46,18 +62,6 @@
       "repairOrRepurposeItems": "C",
       "donateUnwantedItems": "A",
       "recyclingGuidelinesAwareness": "A"
-    },
-    "dietWeightage": {
-      "meatDairyConsumption": "A",
-      "vegetarianVeganDiet": "B",
-      "locallySourcedProduce": "C",
-      "foodWasteReduction": "B",
-      "reduceProcessedPackagedFoods": "A",
-      "organicSustainableFood": "B",
-      "csaParticipation": "C",
-      "plantBasedProteins": "A",
-      "fromScratchMeals": "A",
-      "awarenessCarbonFootprint": "B"
     }
-  }
+}
   
