@@ -1,0 +1,53 @@
+{
+  "organicWasteDisposal": {
+    "A": 0.22,
+    "B": 0.90,
+    "C": 0.41,
+    "D": 0.55
+  },
+  "paperPlasticGlassMetalRecycling": {
+    "A": 0.21,
+    "B": 0.39,
+    "C": 0.81
+  },
+  "avoidSingleUsePlastic": {
+    "A": 0.24,
+    "B": 0.52,
+    "C": 0.81
+  },
+  "reduceDisposableProducts": {
+    "A": 0.30,
+    "B": 0.42,
+    "C": 0.70
+  },
+  "communityCleanupParticipation": {
+    "A": 0.31,
+    "B": 0.56,
+    "C": 0.73
+  },
+  "eWasteRecycling": {
+    "A": 0.20,
+    "B": 0.40,
+    "C": 0.74
+  },
+  "minimizePackagingWaste": {
+    "A": 0.31,
+    "B": 0.53,
+    "C": 0.86
+  },
+  "repairOrRepurposeItems": {
+    "A": 0.18,
+    "B": 0.42,
+    "C": 0.73
+  },
+  "donateUnwantedItems": {
+    "A": 0.31,
+    "B": 0.54,
+    "C": 0.80
+  },
+  "recyclingGuidelinesAwareness": {
+    "A": 0.33,
+    "B": 0.51,
+    "C": 0.80
+  }
+}

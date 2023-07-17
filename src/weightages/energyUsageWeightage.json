@@ -1,0 +1,51 @@
+{
+  "heatingSystem": {
+    "A": 0.82,
+    "B": 0.67,
+    "C": 0.81,
+    "D": 0.20,
+    "E": 0.31
+  },
+  "thermostatAdjustment": {
+    "A": 0.28,
+    "B": 0.52,
+    "C": 0.84
+  },
+  "energyEfficientLightBulbs": {
+    "A": 0.32,
+    "B": 0.54,
+    "C": 0.83
+  },
+  "lightsAppliancesUsage": {
+    "A": 0.23,
+    "B": 0.64,
+    "C": 1.20
+  },
+  "solarPanels": {
+    "A": 0.31,
+    "B": 0.79
+  },
+  "energyMonitoring": {
+    "A": 0.35,
+    "B": 0.53,
+    "C": 0.89
+  },
+  "energyAudit": {
+    "A": 0.23,
+    "B": 0.78
+  },
+  "energyEfficientAppliances": {
+    "A": 0.12,
+    "B": 0.44,
+    "C": 0.81
+  },
+  "programmableThermostats": {
+    "A": 0.25,
+    "B": 0.82
+  },
+  "naturalVentilation": {
+    "A": 0.21,
+    "B": 0.40,
+    "C": 1.11
+  }
+}
