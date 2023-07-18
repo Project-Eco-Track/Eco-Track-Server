@@ -9,7 +9,6 @@ function getAllBlogs(req, res) {
   client
     .fetch(process.env.BLOG_GET_ALL)
     .then((response) => {
-      //log current time
       console.log(
         new Date().toLocaleString(),
         " getAllBlogs Response status: " + response.status
@@ -33,6 +32,10 @@ function getBlogContent(req, res) {
   client
     .fetch(`${process.env.BLOG_GET_BLOG_POST}?id=${req.params.id}`)
     .then((response) => {
+      console.log(
+        new Date().toLocaleString(),
+        " getBlogContent Response status: " + response.status
+      );
       if (!response.ok) {
         console.log("Request failed with status: " + response.status);
         res.json("Request failed with status: " + response.status);
@@ -53,6 +56,10 @@ async function getFeaturedBlogID(req, res) {
   client
     .fetch(process.env.BLOG_GET_FEATURED)
     .then((response) => {
+      console.log(
+        new Date().toLocaleString(),
+        " getFeaturedBlogID Response status: " + response.status
+      );
       if (!response.ok) {
         console.log("Request failed with status: " + response.status);
         res.json("Request failed with status: " + response.status);
@@ -80,6 +87,11 @@ async function createBlogPost(req, res) {
     await req.db.query(insertQuery, insertValues);
 
     res.status(200).json({ message: "Blog post created successfully" });
+
+    console.log(
+      new Date().toLocaleString(),
+      " getFeaturedBlogID Response status: " + response.status
+    );
   } catch (error) {
     console.error("Error creating blog post:", error);
     res.status(500).json({ error: "Failed to create blog post" });
