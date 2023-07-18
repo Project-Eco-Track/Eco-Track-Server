@@ -9,6 +9,11 @@ function getAllBlogs(req, res) {
   client
     .fetch(process.env.BLOG_GET_ALL)
     .then((response) => {
+      //log current time
+      console.log(
+        new Date().toLocaleString(),
+        " getAllBlogs Response status: " + response.status
+      );
       if (!response.ok) {
         console.log("Request failed with status: " + response.status);
         res.json("Request failed with status: " + response.status);

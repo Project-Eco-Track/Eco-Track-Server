@@ -1,8 +1,6 @@
 {
   "dependencies": {
     "@clerk/backend-core": "^2.13.2",
-    "@tensorflow/tfjs": "^4.8.0",
-    "@tensorflow/tfjs-node": "^4.8.0",
     "body-parser": "^1.20.2",
     "clerk": "^0.8.3",
     "cors": "^2.8.5",
