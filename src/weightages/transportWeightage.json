@@ -9,8 +9,7 @@
     "A": 0.51,
     "B": 0.62,
     "C": 0.70,
-    "D": 0.81,
-    "E": 1.24
+    "D": 0.81
   },
   "carpoolFrequency": {
     "A": 0.19,
@@ -20,39 +19,14 @@
   },
   "electricHybridVehicle": {
     "A": 0.14,
-    "B": 0.70
+    "B": 0.70,
+    "C": 0.81,
+    "D": 0.81
   },
   "airTravelFrequency": {
     "A": 0.92,
     "B": 0.81,
     "C": 0.50,
     "D": 0.20
-  },
-  "avoidPeakTraffic": {
-    "A": 0.20,
-    "B": 0.71,
-    "C": 1.03
-  },
-  "alternativeTransportation": {
-    "A": 0.14,
-    "B": 0.52,
-    "C": 0.80
-  },
-  "vehicleMaintenance": {
-    "A": 0.10,
-    "B": 0.24,
-    "C": 0.82
-  },
-  "carpoolingProgram": {
-    "A": 0.11,
-    "B": 0.20,
-    "C": 0.41,
-    "D": 0.79
-  },
-  "walkBikeFrequency": {
-    "A": 0.13,
-    "B": 0.21,
-    "C": 0.40,
-    "D": 0.68
   }
 }
