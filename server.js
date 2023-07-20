@@ -39,10 +39,10 @@ app.get("/api/blog/:id", async (req, res) => {
 // Blog routes
 app.get("/blogs", blogController.getAllBlogs);
 app.get("/blog/:id", blogController.getBlogContent);
-app.post("/api/blog", blogController.createBlogPost);
+app.post("/post/blog", blogController.createBlogPost);
 
 // Calculating the carbon footprint
-app.post("/carbon-footprint", calculateCarbonFootprint);
+app.post("post/carbon-footprint", calculateCarbonFootprint);
 
 // CustomError class for custom errors with specific status codes
 class CustomError extends Error {
