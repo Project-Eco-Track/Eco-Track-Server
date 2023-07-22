@@ -15,9 +15,10 @@ function getAllBlogs(req, res) {
     url = `${url}/getRecent`;
   } else if (filterValue === "Popular") {
     url = `${url}/getPopular`;
-  }
-  else if (filterValue === "Eco Verified") {
+  }else if (filterValue === "Eco Verified") {
     url = `${url}/getEcoVerified`;
+  }else {
+    url = `${url}/getRecommended`;
   }
 
   try {
