@@ -20,6 +20,7 @@ function getAllBlogs(req, res) {
   }else {
     url = `${url}/getRecommended`;
   }
+  
 
   try {
     client
