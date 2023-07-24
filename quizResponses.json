@@ -1,67 +1,37 @@
 {
-    "transportWeightage": {
-      "commuteMethod": "A",
-      "weeklyMiles": "B",
-      "carpoolFrequency": "C",
-      "electricHybridVehicle": "B",
-      "airTravelFrequency": "A",
-      "avoidPeakTraffic": "B",
-      "alternativeTransportation": "C",
-      "vehicleMaintenance": "C",
-      "carpoolingProgram": "A",
-      "walkBikeFrequency": "B"
-    },
-
-    "dietWeightage": {
-      "meatDairyConsumption": "A",
-      "vegetarianVeganDiet": "B",
-      "locallySourcedProduce": "C",
-      "foodWasteReduction": "B",
-      "reduceProcessedPackagedFoods": "A",
-      "organicSustainableFood": "B",
-      "csaParticipation": "C",
-      "plantBasedProteins": "A",
-      "fromScratchMeals": "A",
-      "awarenessCarbonFootprint": "B"
-    },
-
-    "energyUsageWeightage": {
-      "heatingSystem": "A",
-      "thermostatAdjustment": "B",
-      "energyEfficientLightBulbs": "C",
-      "lightsAppliancesUsage": "B",
-      "solarPanels": "A",
-      "energyMonitoring": "B",
-      "energyAudit": "A",
-      "energyEfficientAppliances": "C",
-      "programmableThermostats": "A",
-      "naturalVentilation": "B"
-    },
-    
-    "purchasingHabitWeightage": {
-      "reusableBags": "A",
-      "localProducts": "B",
-      "ecoFriendlyCertifications": "C",
-      "singleUsePlasticItems": "D",
-      "clothingShoppingApproach": "A",
-      "repairOrMendItems": "B",
-      "packagingImpactConsideration": "C",
-      "bulkBuyingPractices": "D",
-      "responsibleDisposal": "A",
-      "brandImpactConsideration": "B"
-    },
-
-    "wasteManagementWeightage": {
-      "organicWasteDisposal": "A",
-      "paperPlasticGlassMetalRecycling": "B",
-      "avoidSingleUsePlastic": "C",
-      "reduceDisposableProducts": "B",
-      "communityCleanupParticipation": "A",
-      "eWasteRecycling": "B",
-      "minimizePackagingWaste": "C",
-      "repairOrRepurposeItems": "C",
-      "donateUnwantedItems": "A",
-      "recyclingGuidelinesAwareness": "A"
-    }
+  "transportWeightage": { 
+     "commuteMethod": "A",
+     "weeklyMiles": "B",
+     "carpoolFrequency": "B",
+     "electricVehicle": "A",
+     "airTravelFrequency": "C"
+  },
+   "energyUsageWeightage":{
+     "energyEfficientAppliances": "A",
+     "lightsAndAppliances": "C",
+     "energyEfficientLightBulbs": "B",
+     "programmableThermostat": "B",
+     "renewableEnergyUsage": "B"
+   },
+   "purchasingHabitWeightage":{
+     "meatAndDairyConsumption": "C",
+     "locallySourcedOrganicFood": "B",
+     "processedFoodsConsumption": "B",
+     "fruitsAndVegetablesConsumption": "A",
+     "foodWasteFrequency": "C"
+   },
+   "wasteManagementWeightage":{
+     "minimalPackagingBulkProducts": "C",
+     "secondHandItemsPurchase": "B",
+     "consideringEnvironmentalImpact": "B",
+     "ecoFriendlyBrandsPreference": "B",
+     "singleUsePlasticsAvoidance": "A"
+   },
+   "dietWeightage":{
+     "recyclingHabits": "B",
+     "organicWasteComposting": "B",
+     "reusableContainersAndBags": "C",
+     "reducingWasteByAvoidingUnnecessaryPackaging": "C",
+     "awarenessOfProperDisposalMethods": "C"
+   }
 }
-  
