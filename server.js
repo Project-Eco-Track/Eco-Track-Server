@@ -42,7 +42,7 @@ app.get("/blog/:id", blogController.getBlogContent);
 app.post("/post/blog", blogController.createBlogPost);
 
 // Calculating the carbon footprint
-app.post("post/carbon-footprint", calculateCarbonFootprint);
+app.post("/post/carbon-footprint", calculateCarbonFootprint);
 
 // CustomError class for custom errors with specific status codes
 class CustomError extends Error {
