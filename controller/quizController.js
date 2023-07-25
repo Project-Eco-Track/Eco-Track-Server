@@ -3,43 +3,64 @@ const calculateCarbonFootprint = (req, res) => {
     const flatQuizResponses = req.body;
     console.log('Received Quiz Responses:', flatQuizResponses);
 
-    // Loading weightages from the JSON files
+    // Load weightages from the JSON files
     const transportWeightage = require('../src/weightages/transportWeightage.json');
     const dietWeightage = require('../src/weightages/dietWeightage.json');
     const energyUsageWeightage = require('../src/weightages/energyUsageWeightage.json');
     const purchasingHabitWeightage = require('../src/weightages/purchasingHabitWeightage.json');
     const wasteManagementWeightage = require('../src/weightages/wasteManagementWeightage.json');
 
-    // mapping the response to their corresponding categories and questions with weightages and converting it to a nested JSON
-    const mapFlatToNested = (flatResponses, weightages) => {
+    // Function to map the flat keys to their corresponding categories and questions
+    const mapFlatToNested = (flatResponses) => {
       const nestedResponses = {};
-      let totalCarbonFootprint = 0;
-      for (const category in weightages) {
+      for (const category in flatResponses) {
         nestedResponses[category] = {};
-        const categoryWeightages = weightages[category];
-        for (const question in categoryWeightages) {
-          const weightage = categoryWeightages[question];
-          const response = flatResponses[question];
-          if (response !== undefined) {
-            nestedResponses[category][question] = response;
-            // Apply the weightage to the total carbon footprint
-            totalCarbonFootprint += weightage[response];
-          } else {
-            console.warn(`Response not found for question '${question}' of category '${category}'. Skipping calculation.`);
-          }
+        for (const question in flatResponses[category]) {
+          const response = flatResponses[category][question];
+          nestedResponses[category][question] = response;
         }
       }
-      return { nestedResponses, totalCarbonFootprint };
+      return nestedResponses;
     };
 
-    // Convert flat JSON object to the desired nested format with weightages
-    const { nestedResponses, totalCarbonFootprint } = mapFlatToNested(flatQuizResponses, {
-      transportWeightage,
-      dietWeightage,
-      energyUsageWeightage,
-      purchasingHabitWeightage,
-      wasteManagementWeightage,
-    });
+    // Convert flat JSON object to the desired nested format
+    const quizResponses = mapFlatToNested(flatQuizResponses);
+    
+    const weightages = {
+    transportWeightage,
+    dietWeightage,
+    energyUsageWeightage,
+    purchasingHabitWeightage,
+    wasteManagementWeightage
+    };
+    
+    // calculating carbonfootprint 
+    let totalCarbonFootprint = 0;
+
+    for (const category in quizResponses) {
+      const categoryResponses = quizResponses[category];
+
+      for (const question in categoryResponses) {
+        const response = categoryResponses[question];
+
+        // Get the weightage for the response from the weightages object
+        const questionWeightages = weightages[category][question];
+
+        // Checking if the weightage exists for the question
+        if (questionWeightages) {
+          const responseWeightage = questionWeightages[response];
+
+          // Check if the weightage for the response exists
+          if (responseWeightage !== undefined) {
+            totalCarbonFootprint += responseWeightage;
+          } else {
+            console.warn(`Weightage not defined for response '${response}' in question '${question}' of category '${category}'. Skipping calculation.`);
+          }
+        } else {
+          console.warn(`Weightage not defined for question '${question}' of category '${category}'. Skipping calculation.`);
+        }
+      }
+    }
 
     // Respond with the total carbon footprint
     const roundedCarbonFootprint = totalCarbonFootprint.toFixed(2);
