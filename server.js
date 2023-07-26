@@ -6,7 +6,7 @@ const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
 const loginRouter = require('./src/api/user/login');
 const blogController = require("./controller/blogController");
-const { calculateCarbonFootprint } = require("./controller/quizController");
+const { calculateCarbonFootprint, getTransportWeightages, getDietWeightages, getEnergyUsageWeightages, getPurchasingHabitWeightages, getWasteManagementWeightages } = require("./controller/quizController");
 const cors = require("cors");
 
 
@@ -43,6 +43,15 @@ app.post("/post/blog", blogController.createBlogPost);
 
 // Calculating the carbon footprint
 app.post("/post/carbon-footprint", calculateCarbonFootprint);
+
+// Sectional Carbon Footprint Routes
+app.post("/post/transportFootprint", getTransportWeightages);
+app.post("/post/dietFootprint", getDietWeightages);
+app.post("/post/energyUsageFootprint", getEnergyWeightages);
+app.post("/post/purchasingHabitFootprint", getPurchasingHabitWeightages);
+
+// total transport Footprint
+app.post("/post/wasteManagementFootprint", getWasteManagementWeightages);
 
 // CustomError class for custom errors with specific status codes
 class CustomError extends Error {
