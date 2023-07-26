@@ -1,9 +1,11 @@
 const DigestFetch = require("with-digest-fetch").default;
+const markdownIt = require("markdown-it");
 
 const publicKey = process.env.TIDB_PUBLIC_KEY_R;
 const privateKey = process.env.TIDB_PRIVATE_KEY_R;
 
 const client = new DigestFetch(publicKey, privateKey);
+const md = markdownIt();
 
 function getAllBlogs(req, res) {
   const filterValue = req.query.filter;
@@ -15,12 +17,11 @@ function getAllBlogs(req, res) {
     url = `${url}/getRecent`;
   } else if (filterValue === "Popular") {
     url = `${url}/getPopular`;
-  }else if (filterValue === "Eco Verified") {
+  } else if (filterValue === "Eco Verified") {
     url = `${url}/getEcoVerified`;
-  }else {
+  } else {
     url = `${url}/getRecommended`;
   }
-  
 
   try {
     client
@@ -104,11 +105,47 @@ async function getFeaturedBlogID(req, res) {
 
 // Creating a blog post with user ID
 async function createBlogPost(req, res) {
-  console.log(
-    new Date().toLocaleString(),
-    " createBlogPost Response status: " + response.status
-  );
-  console.log("request");
+  const { title, content, description, date, time, userID, username, image } =
+    req.body;
+  const wordCounts = content.split(" ").length;
+  const readingTime = wordCounts / 200; // 200 = words per minute
+  const htmlContent = md.render(content);
+  const url = image.url;
+  console.log("Post request received");
+
+  const payload = {
+    title,
+    description,
+    date,
+    time,
+    userID,
+    username,
+    image_url: url,
+    readingTime,
+    htmlContent,
+  };
+  console.log(payload);
+  client
+    .fetch(process.env.BLOG_CREATE_BLOG_POST, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        res.json("Request failed with status: " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
 }
 
 module.exports = {
