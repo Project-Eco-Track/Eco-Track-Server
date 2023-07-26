@@ -60,14 +60,16 @@ const calculateTotalCarbonFootprint = (quizResponses) => {
 
 const calculateCarbonFootprint = (req, res) => {
   try {
-    const flatQuizResponses = req.body;
+    const { userID, ...flatQuizResponses } = req.body;
     console.log('Received Quiz Responses:', flatQuizResponses);
     const quizResponses = convertToNestedFormat(flatQuizResponses);
 
     // Calculate the total carbon footprint
     const totalCarbonFootprint = calculateTotalCarbonFootprint(quizResponses);
     console.log('Total Carbon Footprint:', totalCarbonFootprint);
-    res.json({ totalCarbonFootprint: totalCarbonFootprint });
+
+    // Send the total carbon footprint in the response along with the userID
+    res.json({ userID, totalCarbonFootprint: totalCarbonFootprint });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -127,3 +129,4 @@ module.exports = {
   getPurchasingHabitWeightages,
   getWasteManagementWeightages,
 };
+
