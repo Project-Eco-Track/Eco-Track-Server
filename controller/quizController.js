@@ -76,6 +76,24 @@ const calculateCarbonFootprint = (req, res) => {
   }
 };
 
+const totalCarbonFootprint = (req, res) => {
+  try {
+    const { userID, ...flatQuizResponses } = req.body;
+    console.log('Received Quiz Responses:', flatQuizResponses);
+    const quizResponses = convertToNestedFormat(flatQuizResponses);
+
+    // Calculate the total carbon footprint
+    const totalCarbonFootprintValue = calculateTotalCarbonFootprint(quizResponses);
+    console.log('Total Carbon Footprint:', totalCarbonFootprintValue);
+
+    // Send the total carbon footprint in the response along with the userID
+    res.json({ userID, totalCarbonFootprint: totalCarbonFootprintValue });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 // Calculate the total weightages for each section
 const calculateSectionWeightages = (weightages) => {
   const sectionWeightages = {};
@@ -128,5 +146,6 @@ module.exports = {
   getEnergyUsageWeightages,
   getPurchasingHabitWeightages,
   getWasteManagementWeightages,
+  totalCarbonFootprint,
 };
 

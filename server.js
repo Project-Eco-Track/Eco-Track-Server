@@ -6,7 +6,7 @@ const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
 const loginRouter = require('./src/api/user/login');
 const blogController = require("./controller/blogController");
-const { calculateCarbonFootprint, getTransportWeightages, getDietWeightages, getEnergyUsageWeightages, getPurchasingHabitWeightages, getWasteManagementWeightages } = require("./controller/quizController");
+const quizController = require("./controller/quizController");
 const cors = require("cors");
 
 
@@ -42,16 +42,15 @@ app.get("/blog/:id", blogController.getBlogContent);
 app.post("/post/blog", blogController.createBlogPost);
 
 // Calculating the carbon footprint
-app.post("/post/carbon-footprint", calculateCarbonFootprint);
+app.post("/post/carbon-footprint", quizController.calculateCarbonFootprint);
+app.get("/total-carbon-footprint", quizController.totalCarbonFootprint);
 
 // Sectional Carbon Footprint Routes
-app.post("/post/transportFootprint", getTransportWeightages);
-app.post("/post/dietFootprint", getDietWeightages);
-app.post("/post/energyUsageFootprint", getEnergyWeightages);
-app.post("/post/purchasingHabitFootprint", getPurchasingHabitWeightages);
-
-// total transport Footprint
-app.post("/post/wasteManagementFootprint", getWasteManagementWeightages);
+app.get("/transportFootprint", quizController.getTransportWeightages);
+app.get("/dietFootprint", quizController.getDietWeightages);
+app.get("/energyUsageFootprint", quizController.getEnergyWeightages);
+app.get("/purchasingHabitFootprint", quizController.getPurchasingHabitWeightages);
+app.get("/wasteManagementFootprint", quizController.getWasteManagementWeightages);
 
 // CustomError class for custom errors with specific status codes
 class CustomError extends Error {
