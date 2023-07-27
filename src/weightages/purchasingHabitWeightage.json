@@ -1,25 +1,25 @@
 {
-  "minimalPackagingOrBulkPurchase": {
+  "minimalPackagingBulkProducts": {
     "A": 0.39,
     "B": 1.21,
     "C": 1.86
   },
-  "secondHandPurchaseFrequency": {
+  "secondHandItemsPurchase": {
     "A": 0.40,
     "B": 1.21,
     "C": 1.88
   },
-  "considerEnvironmentalImpact": {
+  "consideringEnvironmentalImpact": {
     "A": 0.31,
     "B": 1.06,
     "C": 1.83
   },
-  "ecoFriendlyOrSustainableBrands": {
+  "ecoFriendlyBrandsPreference": {
     "A": 0.32,
     "B": 1.05,
     "C": 1.79
   },
-  "avoidSingleUsePlastics": {
+  "singleUsePlasticsAvoidance": {
     "A": 0.31,
     "B": 1.18,
     "C": 1.71

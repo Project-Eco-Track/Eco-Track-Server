@@ -17,7 +17,7 @@
     "C": 0.34,
     "D": 1.69
   },
-  "electricHybridVehicle": {
+  "electricVehicle": {
     "A": 0.55,
     "B": 1.11,
     "C": 1.92,

@@ -1,3 +1,4 @@
+const http = require('http');
 const transportWeightage = require('../src/weightages/transportWeightage.json');
 const dietWeightage = require('../src/weightages/dietWeightage.json');
 const energyUsageWeightage = require('../src/weightages/energyUsageWeightage.json');
@@ -58,35 +59,99 @@ const calculateTotalCarbonFootprint = (quizResponses) => {
   return totalCarbonFootprint.toFixed(2);
 };
 
-const calculateCarbonFootprint = (req, res) => {
-  try {
-    const flatQuizResponses = req.body;
-    console.log('Received Quiz Responses:', flatQuizResponses);
-    const quizResponses = convertToNestedFormat(flatQuizResponses);
+// Making POST request to the DataApp
+const postCarbonFootprintToDB = (data) => {
+  const endpoint = process.env.CFootPrint_ENDPOINT_URL;
 
-    // Calculate the total carbon footprint
-    const totalCarbonFootprint = calculateTotalCarbonFootprint(quizResponses);
-    console.log('Total Carbon Footprint:', totalCarbonFootprint);
-    res.json({ totalCarbonFootprint: totalCarbonFootprint });
-  } catch (error) {
-    console.error('Error:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+  const jsonData = JSON.stringify(data);
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': jsonData.length,
+    },
+  };
+
+  return new Promise((resolve, reject) => {
+    const req = http.request(endpoint, options, (res) => {
+      res.setEncoding('utf8');
+      let responseBody = '';
+
+      res.on('data', (chunk) => {
+        responseBody += chunk;
+      });
+
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve(responseBody);
+        } else {
+          reject(new Error(`Request failed with status code ${res.statusCode}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(error);
+    });
+
+    // Send the request body
+    req.write(jsonData);
+    req.end();
+  });
 };
 
 // Calculate the total weightages for each section
 const calculateSectionWeightages = (weightages) => {
   const sectionWeightages = {};
+  let totalSectionWeightage = 0;
   for (const category in weightages) {
     const categoryWeightages = weightages[category];
-    let totalSectionWeightage = 0;
     for (const question in categoryWeightages) {
       const weightage = categoryWeightages[question];
       totalSectionWeightage += weightage;
     }
-    sectionWeightages[category] = totalSectionWeightage;
   }
+  sectionWeightages.totalWeightage = totalSectionWeightage;
   return sectionWeightages;
+};
+
+// Calculating the total carbon footprint and making a POST request to the external API
+const calculateCarbonFootprint = async (req, res) => {
+  try {
+    const { userID, Date, ...flatQuizResponses } = req.body;
+    console.log('Received Quiz Responses:', flatQuizResponses);
+    const quizResponses = convertToNestedFormat(flatQuizResponses);
+
+    const totalCarbonFootprint = calculateTotalCarbonFootprint(quizResponses);
+    console.log('Total Carbon Footprint:', totalCarbonFootprint);
+
+    // Calculate the total weightages for each section
+    const transportWeightage = calculateSectionWeightages(quizResponses.transportWeightage);
+    const dietWeightage = calculateSectionWeightages(quizResponses.dietWeightage);
+    const energyUsageWeightage = calculateSectionWeightages(quizResponses.energyUsageWeightage);
+    const purchasingHabitWeightage = calculateSectionWeightages(quizResponses.purchasingHabitWeightage);
+    const wasteManagementWeightage = calculateSectionWeightages(quizResponses.wasteManagementWeightage);
+
+    // Request body for POST
+    const requestBody = {
+      UserID: userID,
+      CarbonFootprint: parseFloat(totalCarbonFootprint),
+      Transportation: transportWeightage.totalWeightage,
+      Diet: dietWeightage.totalWeightage,
+      EnergyUsage: energyUsageWeightage.totalWeightage,
+      PurchasingHabit: purchasingHabitWeightage.totalWeightage,
+      WasteManagement: wasteManagementWeightage.totalWeightage,
+      Date: Date,
+    };
+
+    await postCarbonFootprintToDB(requestBody);
+
+    res.json(requestBody);
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 // Transport Section
@@ -119,11 +184,5 @@ const getWasteManagementWeightages = (req, res) => {
   res.json(sectionWeightages);
 };
 
-module.exports = {
-  calculateCarbonFootprint,
-  getTransportWeightages,
-  getDietWeightages,
-  getEnergyUsageWeightages,
-  getPurchasingHabitWeightages,
-  getWasteManagementWeightages,
-};
+module.exports.calculateCarbonFootprint = calculateCarbonFootprint;
+

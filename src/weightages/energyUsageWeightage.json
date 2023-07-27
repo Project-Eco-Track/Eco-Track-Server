@@ -4,7 +4,7 @@
     "B": 0.89,
     "C": 1.87
   },
-  "lightsAppliancesUsage": {
+  "lightsAndAppliances": {
     "A": 0.28,
     "B": 0.84,
     "C": 1.36,
@@ -15,12 +15,12 @@
     "B": 1.12,
     "C": 1.78
   },
-  "programmableThermostats": {
+  "programmableThermostat": {
     "A": 0.32,
     "B": 1.18,
     "C": 1.81
   },
-  "solarPanels": {
+  "renewableEnergyUsage": {
     "A": 0.30,
     "B": 0.73,
     "C": 1.21,

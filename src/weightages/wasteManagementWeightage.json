@@ -1,25 +1,25 @@
 {
-  "recycleFrequency": {
+  "recyclingHabits": {
     "A": 0.31,
     "B": 1.18,
     "C": 1.89
   },
-  "compostOrganicWaste": {
+  "organicWasteComposting": {
     "A": 0.21,
     "B": 1.14,
     "C": 1.85
   },
-  "reuseContainersBags": {
+  "reusableContainersAndBags": {
     "A": 0.27,
     "B": 1.09,
     "C": 1.76
   },
-  "reduceWasteByAvoidingPackaging": {
+  "reducingWasteByAvoidingUnnecessaryPackaging": {
     "A": 0.30,
     "B": 1.13,
     "C": 1.82
   },
-  "awarenessOfDisposalMethods": {
+  "awarenessOfProperDisposalMethods": {
     "A": 0.22,
     "B": 1.32,
     "C": 1.87
