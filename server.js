@@ -6,7 +6,7 @@ const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
 const loginRouter = require("./src/api/user/login");
 const blogController = require("./controller/blogController");
-const quizController = require('./controller/quizController');
+const { calculateCarbonFootprint } = require('./controller/quizController');
 const {
   getCarbonfootprint,
 } = require("./controller/carbonfootprintController");
@@ -44,7 +44,7 @@ app.get("/blog/:id", blogController.getBlogContent);
 app.post("/post/blog", blogController.createBlogPost);
 
 // Calculating the carbon footprint
-app.post('/post/carbon-footprint', quizController.calculateCarbonFootprint);
+app.post('/calculateCarbonFootprint', calculateCarbonFootprint);
 
 // get carbonfootprint data
 app.get("/carbonfootprint", getCarbonfootprint);

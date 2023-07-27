@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@clerk/backend-core": "^2.13.2",
+    "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "clerk": "^0.8.3",
     "cors": "^2.8.5",
