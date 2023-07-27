@@ -1,188 +1,104 @@
-const http = require('http');
-const transportWeightage = require('../src/weightages/transportWeightage.json');
-const dietWeightage = require('../src/weightages/dietWeightage.json');
-const energyUsageWeightage = require('../src/weightages/energyUsageWeightage.json');
-const purchasingHabitWeightage = require('../src/weightages/purchasingHabitWeightage.json');
-const wasteManagementWeightage = require('../src/weightages/wasteManagementWeightage.json');
+const axios = require('axios');
 
-// map flat keys to their corresponding categories and questions
-const mapFlatToNested = (flatResponses) => {
-  const nestedResponses = {};
-  for (const category in flatResponses) {
-    nestedResponses[category] = {};
-    for (const question in flatResponses[category]) {
-      const response = flatResponses[category][question];
-      nestedResponses[category][question] = response;
-    }
-  }
-  return nestedResponses;
-};
-
-// Convert flat JSON object to nested format
-const convertToNestedFormat = (flatResponses) => {
-  const quizResponses = mapFlatToNested(flatResponses);
-  return quizResponses;
-};
-
-const calculateTotalCarbonFootprint = (quizResponses) => {
-  const weightages = {
-    transportWeightage,
-    dietWeightage,
-    energyUsageWeightage,
-    purchasingHabitWeightage,
-    wasteManagementWeightage,
-  };
-
-  let totalCarbonFootprint = 0;
-
-  for (const category in quizResponses) {
-    const categoryResponses = quizResponses[category];
-
-    for (const question in categoryResponses) {
-      const response = categoryResponses[question];
-      const questionWeightages = weightages[category][question];
-      if (questionWeightages) {
-        const responseWeightage = questionWeightages[response];
-
-        // Check if the weightage for the response exists
-        if (responseWeightage !== undefined) {
-          totalCarbonFootprint += responseWeightage;
-        } else {
-          console.warn(`Weightage not defined for response '${response}' in question '${question}' of category '${category}'. Skipping calculation.`);
-        }
-      } else {
-        console.warn(`Weightage not defined for question '${question}' of category '${category}'. Skipping calculation.`);
-      }
-    }
-  }
-
-  return totalCarbonFootprint.toFixed(2);
-};
-
-// Making POST request to the DataApp
-const postCarbonFootprintToDB = (data) => {
-  const endpoint = process.env.CFootPrint_ENDPOINT_URL;
-
-  const jsonData = JSON.stringify(data);
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': jsonData.length,
-    },
-  };
-
-  return new Promise((resolve, reject) => {
-    const req = http.request(endpoint, options, (res) => {
-      res.setEncoding('utf8');
-      let responseBody = '';
-
-      res.on('data', (chunk) => {
-        responseBody += chunk;
-      });
-
-      res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(responseBody);
-        } else {
-          reject(new Error(`Request failed with status code ${res.statusCode}`));
-        }
-      });
-    });
-
-    req.on('error', (error) => {
-      reject(error);
-    });
-
-    // Send the request body
-    req.write(jsonData);
-    req.end();
-  });
-};
-
-// Calculate the total weightages for each section
-const calculateSectionWeightages = (weightages) => {
-  const sectionWeightages = {};
-  let totalSectionWeightage = 0;
-  for (const category in weightages) {
-    const categoryWeightages = weightages[category];
-    for (const question in categoryWeightages) {
-      const weightage = categoryWeightages[question];
-      totalSectionWeightage += weightage;
-    }
-  }
-  sectionWeightages.totalWeightage = totalSectionWeightage;
-  return sectionWeightages;
-};
-
-// Calculating the total carbon footprint and making a POST request to the external API
 const calculateCarbonFootprint = async (req, res) => {
   try {
-    const { userID, Date, ...flatQuizResponses } = req.body;
-    console.log('Received Quiz Responses:', flatQuizResponses);
-    const quizResponses = convertToNestedFormat(flatQuizResponses);
+    const quizResponses = req.body;
+    console.log('Received Quiz Responses:', quizResponses);
 
-    const totalCarbonFootprint = calculateTotalCarbonFootprint(quizResponses);
-    console.log('Total Carbon Footprint:', totalCarbonFootprint);
+    // Extract the userID and Date from the JSON data
+    const { userID, Date } = quizResponses;
+    delete quizResponses.userID;
+    delete quizResponses.Date;
 
-    // Calculate the total weightages for each section
-    const transportWeightage = calculateSectionWeightages(quizResponses.transportWeightage);
-    const dietWeightage = calculateSectionWeightages(quizResponses.dietWeightage);
-    const energyUsageWeightage = calculateSectionWeightages(quizResponses.energyUsageWeightage);
-    const purchasingHabitWeightage = calculateSectionWeightages(quizResponses.purchasingHabitWeightage);
-    const wasteManagementWeightage = calculateSectionWeightages(quizResponses.wasteManagementWeightage);
+    const transportWeightage = require('../src/weightages/transportWeightage.json');
+    const dietWeightage = require('../src/weightages/dietWeightage.json');
+    const energyUsageWeightage = require('../src/weightages/energyUsageWeightage.json');
+    const purchasingHabitWeightage = require('../src/weightages/purchasingHabitWeightage.json');
+    const wasteManagementWeightage = require('../src/weightages/wasteManagementWeightage.json');
 
-    // Request body for POST
-    const requestBody = {
+    const weightages = {
+      transportWeightage,
+      dietWeightage,
+      energyUsageWeightage,
+      purchasingHabitWeightage,
+      wasteManagementWeightage
+    };
+
+    let totalCarbonFootprint = 0;
+    const sectionalCarbonFootprints = {};
+
+    for (const category in quizResponses) {
+      const categoryResponses = quizResponses[category];
+      let categoryCarbonFootprint = 0;
+
+      for (const question in categoryResponses) {
+        const response = categoryResponses[question];
+
+        const questionWeightages = weightages[category][question];
+        if (questionWeightages) {
+          const responseWeightage = questionWeightages[response];
+
+          if (responseWeightage !== undefined) {
+            categoryCarbonFootprint += responseWeightage;
+          } else {
+            console.warn(`Weightage not defined for response '${response}' in question '${question}' of category '${category}'. Skipping calculation.`);
+          }
+        } else {
+          console.warn(`Weightage not defined for question '${question}' of category '${category}'. Skipping calculation.`);
+        }
+      }
+
+      // Store the sectional carbon footprint for the category
+      sectionalCarbonFootprints[category] = parseFloat(categoryCarbonFootprint.toFixed(2));
+
+      // Add the category's carbon footprint to the total carbon footprint
+      totalCarbonFootprint += categoryCarbonFootprint;
+    }
+
+    const roundedTotalCarbonFootprint = parseFloat(totalCarbonFootprint.toFixed(2));
+    console.log('Total Carbon Footprint:', roundedTotalCarbonFootprint);
+
+    // Combine the total carbon footprint with the sectional carbon footprints for the API response
+    const apiResponse = {
       UserID: userID,
-      CarbonFootprint: parseFloat(totalCarbonFootprint),
-      Transportation: transportWeightage.totalWeightage,
-      Diet: dietWeightage.totalWeightage,
-      EnergyUsage: energyUsageWeightage.totalWeightage,
-      PurchasingHabit: purchasingHabitWeightage.totalWeightage,
-      WasteManagement: wasteManagementWeightage.totalWeightage,
+      totalCarbonFootprint: roundedTotalCarbonFootprint,
+      Transportation: sectionalCarbonFootprints['transportWeightage'],
+      Diet: sectionalCarbonFootprints['dietWeightage'],
+      EnergyUsage: sectionalCarbonFootprints['energyUsageWeightage'],
+      PurchasingHabit: sectionalCarbonFootprints['purchasingHabitWeightage'],
+      WasteManagement: sectionalCarbonFootprints['wasteManagementWeightage'],
       Date: Date,
     };
 
-    await postCarbonFootprintToDB(requestBody);
+    console.log('API Response:', apiResponse);
+    res.json(apiResponse);
 
-    res.json(requestBody);
+    // Send the data to the dataApp via POST request
+    const postData = {
+      UserID: userID,
+      CarbonFootprint: roundedTotalCarbonFootprint,
+      Transportation: sectionalCarbonFootprints['transportWeightage'],
+      Diet: sectionalCarbonFootprints['dietWeightage'],
+      EnergyUsage: sectionalCarbonFootprints['energyUsageWeightage'],
+      PurchasingHabit: sectionalCarbonFootprints['purchasingHabitWeightage'],
+      WasteManagement: sectionalCarbonFootprints['wasteManagementWeightage'],
+      Date: Date,
+    };
+
+    const endpointUrl = process.env.CFOOTPRINT_ENDPOINT_URL;
+    if (endpointUrl) {
+      await axios.post(endpointUrl, postData);
+      console.log('Data sent to the database successfully.');
+    } else {
+      console.warn('Endpoint not defined. Skipping data upload.');
+    }
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// Transport Section
-const getTransportWeightages = (req, res) => {
-  const sectionWeightages = calculateSectionWeightages(transportWeightage);
-  res.json(sectionWeightages);
+module.exports = {
+  calculateCarbonFootprint,
 };
-
-// Diet Section
-const getDietWeightages = (req, res) => {
-  const sectionWeightages = calculateSectionWeightages(dietWeightage);
-  res.json(sectionWeightages);
-};
-
-// Energy Usage Section
-const getEnergyUsageWeightages = (req, res) => {
-  const sectionWeightages = calculateSectionWeightages(energyUsageWeightage);
-  res.json(sectionWeightages);
-};
-
-// Purchasing Habit Section
-const getPurchasingHabitWeightages = (req, res) => {
-  const sectionWeightages = calculateSectionWeightages(purchasingHabitWeightage);
-  res.json(sectionWeightages);
-};
-
-// Waste Management Section
-const getWasteManagementWeightages = (req, res) => {
-  const sectionWeightages = calculateSectionWeightages(wasteManagementWeightage);
-  res.json(sectionWeightages);
-};
-
-module.exports.calculateCarbonFootprint = calculateCarbonFootprint;
 
