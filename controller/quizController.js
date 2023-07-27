@@ -72,12 +72,12 @@ const calculateCarbonFootprint = async (req, res) => {
     // Combine the total carbon footprint with the sectional carbon footprints for the API response
     const apiResponse = {
       UserID: userID,
-      totalCarbonFootprint: roundedTotalCarbonFootprint,
-      Transportation: sectionalCarbonFootprints["transportWeightage"],
-      Diet: sectionalCarbonFootprints["dietWeightage"],
-      EnergyUsage: sectionalCarbonFootprints["energyUsageWeightage"],
-      PurchasingHabit: sectionalCarbonFootprints["purchasingHabitWeightage"],
-      WasteManagement: sectionalCarbonFootprints["wasteManagementWeightage"],
+      totalCarbonFootprint: roundedTotalCarbonFootprint.toString(),
+      Transportation: sectionalCarbonFootprints["transportWeightage"].toString(),
+      Diet: sectionalCarbonFootprints["dietWeightage"].toString(),
+      EnergyUsage: sectionalCarbonFootprints["energyUsageWeightage"].toString(),
+      PurchasingHabit: sectionalCarbonFootprints["purchasingHabitWeightage"].toString(),
+      WasteManagement: sectionalCarbonFootprints["wasteManagementWeightage"].toString(),
       Date: Date,
     };
 
@@ -87,12 +87,12 @@ const calculateCarbonFootprint = async (req, res) => {
     // Send the data to the dataApp via POST request
     const postData = {
       UserID: userID,
-      CarbonFootprint: roundedTotalCarbonFootprint,
-      Transportation: sectionalCarbonFootprints["transportWeightage"],
-      Diet: sectionalCarbonFootprints["dietWeightage"],
-      EnergyUsage: sectionalCarbonFootprints["energyUsageWeightage"],
-      PurchasingHabit: sectionalCarbonFootprints["purchasingHabitWeightage"],
-      WasteManagement: sectionalCarbonFootprints["wasteManagementWeightage"],
+      CarbonFootprint: roundedTotalCarbonFootprint.toString(),
+      Transportation: sectionalCarbonFootprints["transportWeightage"].toString(),
+      Diet: sectionalCarbonFootprints["dietWeightage"].toString(),
+      EnergyUsage: sectionalCarbonFootprints["energyUsageWeightage"].toString(),
+      PurchasingHabit: sectionalCarbonFootprints["purchasingHabitWeightage"].toString(),
+      WasteManagement: sectionalCarbonFootprints["wasteManagementWeightage"].toString(),
       Date: Date,
     };
 
