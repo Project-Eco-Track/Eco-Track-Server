@@ -6,6 +6,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.0",
     "jsonwebtoken-promisified": "^1.0.3",
     "markdown-it": "^13.0.1",
