@@ -4,11 +4,20 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const tidbConnection = require("./src/db/tiDB");
 const markdownIt = require("markdown-it");
-const loginRouter = require('./src/api/user/login');
+const loginRouter = require("./src/api/user/login");
 const blogController = require("./controller/blogController");
-const { calculateCarbonFootprint, getTransportWeightages, getDietWeightages, getEnergyUsageWeightages, getPurchasingHabitWeightages, getWasteManagementWeightages } = require("./controller/quizController");
+const {
+  calculateCarbonFootprint,
+  getTransportWeightages,
+  getDietWeightages,
+  getEnergyUsageWeightages,
+  getPurchasingHabitWeightages,
+  getWasteManagementWeightages,
+} = require("./controller/quizController");
+const {
+  getCarbonfootprint,
+} = require("./controller/carbonfootprintController");
 const cors = require("cors");
-
 
 // Setting up the Express server
 const app = express();
@@ -25,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 // Receiving login details from the frontend
-app.use('/api/user/login', loginRouter);
+app.use("/api/user/login", loginRouter);
 
 // get a blog post by id
 app.get("/api/blog/:id", async (req, res) => {
@@ -49,6 +58,9 @@ app.post("/post/transportFootprint", getTransportWeightages);
 app.post("/post/dietFootprint", getDietWeightages);
 app.post("/post/energyUsageFootprint", getEnergyUsageWeightages);
 app.post("/post/purchasingHabitFootprint", getPurchasingHabitWeightages);
+
+// get carbonfootprint data
+app.get("/carbonfootprint", getCarbonfootprint);
 
 // total transport Footprint
 app.post("/post/wasteManagementFootprint", getWasteManagementWeightages);
