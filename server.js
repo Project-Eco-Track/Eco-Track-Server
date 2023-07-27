@@ -47,7 +47,7 @@ app.post("/post/carbon-footprint", calculateCarbonFootprint);
 // Sectional Carbon Footprint Routes
 app.post("/post/transportFootprint", getTransportWeightages);
 app.post("/post/dietFootprint", getDietWeightages);
-app.post("/post/energyUsageFootprint", getEnergyWeightages);
+app.post("/post/energyUsageFootprint", getEnergyUsageWeightages);
 app.post("/post/purchasingHabitFootprint", getPurchasingHabitWeightages);
 
 // total transport Footprint
