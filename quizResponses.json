@@ -1,39 +1,39 @@
 {
-   "transportWeightage": { 
-      "commuteMethod": "A",
-      "weeklyMiles": "B",
-      "carpoolFrequency": "B",
-      "electricVehicle": "A",
-      "airTravelFrequency": "C"
+  "transportWeightage": { 
+     "commuteMethod": "A",
+     "weeklyMiles": "C",
+     "carpoolFrequency": "C",
+     "electricVehicle": "B",
+     "airTravelFrequency": "A"
+  },
+   "energyUsageWeightage":{
+     "energyEfficientAppliances": "B",
+     "lightsAndAppliances": "A",
+     "energyEfficientLightBulbs": "C",
+     "programmableThermostat": "B",
+     "renewableEnergyUsage": "A"
    },
-    "energyUsageWeightage":{
-      "energyEfficientAppliances": "A",
-      "lightsAndAppliances": "C",
-      "energyEfficientLightBulbs": "B",
-      "programmableThermostat": "B",
-      "renewableEnergyUsage": "B"
-    },
-    "dietWeightage":{
-      "meatAndDairyConsumption": "C",
-      "locallySourcedOrganicFood": "B",
-      "processedFoodsConsumption": "B",
-      "fruitsAndVegetablesConsumption": "A",
-      "foodWasteFrequency": "C"
-    },
-    "purchasingHabitWeightage":{
-      "minimalPackagingBulkProducts": "C",
-      "secondHandItemsPurchase": "B",
-      "consideringEnvironmentalImpact": "B",
-      "ecoFriendlyBrandsPreference": "B",
-      "singleUsePlasticsAvoidance": "A"
-    },
-    "wasteManagementWeightage":{
-      "recyclingHabits": "B",
-      "organicWasteComposting": "B",
-      "reusableContainersAndBags": "C",
-      "reducingWasteByAvoidingUnnecessaryPackaging": "C",
-      "awarenessOfProperDisposalMethods": "C"
-    },
-    "userID":"user_id-ariv",
-    "Date": "2023-07-27"
- }
+   "dietWeightage":{
+     "meatAndDairyConsumption": "B",
+     "locallySourcedOrganicFood": "C",
+     "processedFoodsConsumption": "C",
+     "fruitsAndVegetablesConsumption": "B",
+     "foodWasteFrequency": "C"
+   },
+   "purchasingHabitWeightage":{
+     "minimalPackagingBulkProducts": "C",
+     "secondHandItemsPurchase": "A",
+     "consideringEnvironmentalImpact": "A",
+     "ecoFriendlyBrandsPreference": "B",
+     "singleUsePlasticsAvoidance": "C"
+   },
+   "wasteManagementWeightage":{
+     "recyclingHabits": "A",
+     "organicWasteComposting": "C",
+     "reusableContainersAndBags": "A",
+     "reducingWasteByAvoidingUnnecessaryPackaging": "C",
+     "awarenessOfProperDisposalMethods": "C"
+   },
+   "userID":"user_id-akshayvs2",
+   "Date": "2023-07-28"
+}
