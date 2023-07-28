@@ -20,6 +20,7 @@ function getCarbonfootprint(req, res) {
       return response.json();
     })
     .then((data) => {
+      console.log("Received Data from DataApp:", data);
       res.json(data.data.rows[0]);
     })
     .catch((error) => {
@@ -30,4 +31,4 @@ function getCarbonfootprint(req, res) {
 
 module.exports = {
   getCarbonfootprint,
-};
+}
